@@ -22,7 +22,7 @@ cityInput.addEventListener("keypress", (e) => {
 });
 
 async function fetchWeather(city) {
-    // 1. Show loading state, hide previous data/errors
+    // Show loading state, hide previous data/errors
     loading.classList.remove("hidden");
     weatherInfo.classList.add("hidden");
     errorMsg.classList.add("hidden");
@@ -32,16 +32,24 @@ async function fetchWeather(city) {
     try {
         const response = await fetch(apiUrl);
         
+        // Check specifically for 404 (City Not Found) vs 401 (Invalid/Inactive Key)
         if (!response.ok) {
-            throw new Error("City not found");
+            if (response.status === 404) {
+                throw new Error("City not found. Please check spelling.");
+            } else if (response.status === 401) {
+                throw new Error("API Key is not active yet. OpenWeatherMap takes 30-60 mins to activate new keys.");
+            } else {
+                throw new Error(`Server Error: ${response.status}`);
+            }
         }
 
         const data = await response.json();
         displayWeather(data);
     } catch (error) {
+        // This will print the actual error text onto your screen!
+        errorMsg.innerText = error.message;
         errorMsg.classList.remove("hidden");
     } finally {
-        // 2. Hide loading state when fetch finishes
         loading.classList.add("hidden");
     }
 }
