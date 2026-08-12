@@ -21,14 +21,13 @@ cityInput.addEventListener("keypress", (e) => {
     }
 });
 
-async function fetchWeather(city) {
+ async function fetchWeather(city) {
     // Show loading state, hide previous data/errors
     loading.classList.remove("hidden");
     weatherInfo.classList.add("hidden");
     errorMsg.classList.add("hidden");
 
-     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
 
     try {
         const response = await fetch(apiUrl);
@@ -54,6 +53,7 @@ async function fetchWeather(city) {
         loading.classList.add("hidden");
     }
 }
+
 
 function displayWeather(data) {
     document.getElementById("city-name").innerText = `${data.name}, ${data.sys.country}`;
