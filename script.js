@@ -27,7 +27,8 @@ async function fetchWeather(city) {
     weatherInfo.classList.add("hidden");
     errorMsg.classList.add("hidden");
 
-    const apiUrl = `https://openweathermap.org{city}&units=metric&appid=${apiKey}`;
+     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+
 
     try {
         const response = await fetch(apiUrl);
